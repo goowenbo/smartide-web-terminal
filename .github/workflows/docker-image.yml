@@ -36,7 +36,7 @@ jobs:
       env:
         dockerhublogin: ${{ secrets.DOCKERHUBLOGIN }}
         dockerhubpassword: ${{ secrets.DOCKERHUBPASSWORD }}
-        dockerhubname: goowenbo/se-webterminal
+        dockerhubname: smartide/smartide-webterminal
       run: |
         docker login -u $dockerhublogin -p $dockerhubpassword
         docker tag smartide-webterminal:latest $dockerhubname:$GITHUB_RUN_ID
