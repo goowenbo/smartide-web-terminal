@@ -13,7 +13,6 @@ workspace:
     volumes: 
       git-config: true
       ssh-key: true
-      
   services:
     webshell:
       image: registry.cn-hangzhou.aliyuncs.com/smartide/smartide-node-v2-vscode
@@ -23,6 +22,7 @@ workspace:
       volumes:
         - .:/home/project
         - /var/run/docker.sock:/var/run/docker.sock
+        - C:\Users\Administrator\.kube\config:/home/smartide/.kube/config
       ports:
         - 6822:22
         - 6800:3000

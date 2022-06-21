@@ -26,6 +26,7 @@
               <el-dropdown-menu slot="dropdown" class="dropmenu">
                 <el-dropdown-item class="dropmenu-item" command="terminal">Terminal</el-dropdown-item>
                 <el-dropdown-item class="dropmenu-item" command="docker">Docker</el-dropdown-item>
+                <el-dropdown-item class="dropmenu-item" command="k8s">K8S</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
         </li>
@@ -78,6 +79,7 @@
     </v-contextmenu>
     <config-modal :visible.sync="dialogVisible" @setTheme="handleChangeTheme"></config-modal>
     <docker-modal :visible.sync="dialogDockerVisible" @selectedDocker="handleSelectDocker"></docker-modal>
+    <k8s-modal :visible.sync="dialogK8sVisible"></k8s-modal>
   </div>
 </template>
 <script>
@@ -88,6 +90,7 @@ import axios from "@/apis/index";
 import Terminal from "./Xterm";
 import ConfigModal from "./components/Config";
 import DockerModal from './components/Docker';
+import K8sModal from './components/K8s';
 
 function isInRect(rect, event) {
   if (
@@ -120,6 +123,7 @@ export default {
       },
       dialogVisible: false,
       dialogDockerVisible: false,
+      dialogK8sVisible: false,
       theme: window.localStorage.getItem("theme")
         ? JSON.parse(window.localStorage.getItem("theme"))
         : null
@@ -143,7 +147,8 @@ export default {
   },
   components: {
     ConfigModal,
-    DockerModal
+    DockerModal,
+    K8sModal,
   },
   methods: {
     /**
@@ -432,6 +437,8 @@ export default {
     handlePlusCommand(command) {
       if (command === "docker") {
         this.dialogDockerVisible = true;
+      } else if (command === 'k8s') {
+        this.dialogK8sVisible = true;
       } else {
         this.handlePlus();
       }
