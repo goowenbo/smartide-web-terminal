@@ -60,9 +60,10 @@ export default {
       }
       let terminalname = "terminal-docker-" + uuidv4();
       let filtration = "filtration" + terminalname;
+      let dockerCmd = ` if [ $TERMINAL_DOCKER_LABEL ]; then sudo docker ps --format "${filtration}{ \"containerId\":\"{{.ID}}\",\"containerName\":\"{{.Names}}\" }" --filter "label=$TERMINAL_DOCKER_LABEL"; else sudo docker ps --format "${filtration}{ \"containerId\":\"{{.ID}}\",\"containerName\":\"{{.Names}}\" }"; fi`;
       let socket = io(window.location.origin + "/terminal", {reconnection: true});
       socket.emit("docker", { name: terminalname, filtration: filtration });
-      socket.emit(terminalname + "-docker-input", ` sudo docker ps --format "${filtration}{ \"containerId\":\"{{.ID}}\",\"containerName\":\"{{.Names}}\" }" \r`);
+      socket.emit(terminalname + "-docker-input", ` ${dockerCmd} \r`);
       socket.on(terminalname + "-docker-output", arrayBuffer => {
         arrayBuffer.forEach(element => {
           if (element) {
